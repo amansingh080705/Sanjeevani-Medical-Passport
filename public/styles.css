@@ -1,0 +1,35 @@
+/* Sanjeevani styles */
+:root{--blue:#0077b6;--accent:#00b4d8;--muted:#6b7280}
+*{box-sizing:border-box}
+body{font-family:Inter,Segoe UI,Arial,sans-serif;margin:0;background:#f3fbff;color:#06213a}
+.topbar{background:linear-gradient(90deg,var(--blue),#0a63a8);color:#fff;padding:12px 18px}
+.brand{display:flex;gap:12px;align-items:center}
+.brand h1{margin:0;font-size:20px}
+.brand .tag{opacity:0.9;margin:0;font-size:13px}
+.container{max-width:1100px;margin:20px auto;padding:12px;display:grid;grid-template-columns:1fr 380px;gap:18px}
+.card{background:#fff;border-radius:12px;padding:18px;box-shadow:0 8px 22px rgba(2,24,64,0.06)}
+.welcome{display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+.welcome h2{margin:0;color:var(--blue)}.subtitle{color:var(--muted)}
+.foot{text-align:center;color:var(--muted);padding:12px}
+
+/* form */
+.form-card .quote{margin-bottom:10px}.quote .big{font-weight:800;color:var(--blue);font-size:16px}.quote .small{color:var(--muted);font-size:13px}
+.form-grid{display:grid;grid-template-columns:1fr;gap:10px}.form-grid label{font-weight:700;color:#16324f}
+.form-grid input, .form-grid textarea, .form-grid select{padding:10px;border-radius:8px;border:1px solid #e6eef8;background:#fbfeff}
+.btn{display:inline-block;padding:10px 14px;border-radius:8px;background:var(--accent);color:#fff;text-decoration:none}
+.btn-primary{background:var(--blue);color:#fff;border:0;padding:10px;border-radius:8px;cursor:pointer;margin-top:8px}
+
+/* qr */
+.qr-card .qrResult{display:flex;align-items:center;justify-content:center;height:230px;border-radius:8px;border:1px dashed #e6eef8;background:#fafcff}
+.hint{color:var(--muted);font-size:13px;margin-top:8px}
+
+/* multiselect */
+.multiselect{position:relative}
+.ms-button{width:100%;text-align:left;padding:10px;border-radius:8px;border:1px solid #e6eef8;background:#fff;cursor:pointer}
+.ms-panel{position:absolute;left:0;right:0;top:44px;background:#fff;border:1px solid #e6eef8;border-radius:8px;padding:8px;max-height:220px;overflow:auto;display:none;z-index:30}
+.ms-panel.open{display:block}
+.ms-row{display:flex;gap:8px;align-items:center;padding:6px;border-radius:6px}
+.ms-row:hover{background:#f3f9ff}
+
+/* responsive */
+@media(max-width:900px){.container{grid-template-columns:1fr}}

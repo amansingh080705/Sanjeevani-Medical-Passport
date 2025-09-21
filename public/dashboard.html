@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Dashboard - Sanjeevani</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<header class="topbar small">
+  <div class="brand">
+    <div class="logo">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="3" y="3" width="18" height="18" rx="3" fill="#fff"/>
+        <path d="M12 6v12" stroke="#0077b6" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M6 12h12" stroke="#0077b6" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div><h1>Sanjeevani</h1><p class="tag">Universal Medical Passport</p></div>
+  </div>
+</header>
+
+<main class="container">
+  <div class="card form-card">
+    <div class="quote"><div class="big">"YOUR SAFETY IS OUR PRIORITY"</div><div class="small">"THANKS FOR THE TRUST"</div></div>
+    <form id="medicalForm" class="form-grid">
+      <label>Full Name</label><input id="name" required />
+      <label>Age</label><input id="age" type="number" min="0" />
+      <label>Blood Group</label>
+      <select id="bloodGroup" required><option value="">Select Blood Group</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>O+</option><option>O-</option><option>AB+</option><option>AB-</option></select>
+
+      <label>Allergies</label><div class="multiselect" id="allergies-ms"></div>
+      <label>Medications</label><div class="multiselect" id="medications-ms"></div>
+      <label>Conditions</label><div class="multiselect" id="conditions-ms"></div>
+      <label>Heart Diseases <span class="muted">(optional)</span></label><div class="multiselect" id="heart-ms"></div>
+
+      <label>Additional Information (if any)</label><textarea id="additional" rows="3" placeholder="Add notes..."></textarea>
+
+      <label>Emergency Contact (name & phone)</label><input id="emergency" placeholder="e.g., Rahul - +91-98xxxx" />
+
+      <div></div><button type="submit" class="btn-primary">Save & Generate QR</button>
+    </form>
+  </div>
+
+  <div class="card qr-card">
+    <h3>Emergency QR</h3>
+    <div id="qrResult" class="qrResult">No QR yet</div>
+    <p class="hint">Scan the QR from another device to open full patient details.</p>
+    <div id="linkArea"></div>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+<script src="script.js"></script>
+<script>
+// multi-select options lists
+const ALLERGIES = ["Peanuts","Tree nuts","Shellfish","Fish","Milk (Dairy)","Eggs","Soy","Wheat (Gluten)","Sesame","Penicillin","Cephalosporins","Sulfa drugs","NSAIDs (e.g., Ibuprofen)","Aspirin","Latex","Bee stings","Pollen","Dust mites","Mold","Pet dander","Iodine","Contrast dye"];
+const MEDICATIONS = ["Insulin","Metformin","Glipizide","Glyburide","Pioglitazone","Aspirin","Clopidogrel","Warfarin","Heparin","Atorvastatin","Simvastatin","Rosuvastatin","Amlodipine","Lisinopril","Losartan","Metoprolol","Propranolol","Omeprazole","Pantoprazole","Levothyroxine","Prednisone","Salbutamol (Albuterol)","Montelukast","Amoxicillin","Azithromycin","Ciprofloxacin","Sertraline","Fluoxetine"];
+const CONDITIONS = ["Diabetes","Hypertension","Asthma","COPD","Chronic Kidney Disease","Liver Disease","Thyroid Disorder","Epilepsy","Cancer","Autoimmune Disease","Stroke/TIA","Depression","Anxiety","GERD","Osteoarthritis","Rheumatoid Arthritis","HIV","Tuberculosis","Obstructive Sleep Apnea"];
+const HEART = ["Coronary Artery Disease","Angina","Previous Heart Attack (MI)","Arrhythmia (e.g., AFib)","Heart Failure","Cardiomyopathy","Valvular Heart Disease","Prosthetic Valve","Congenital Heart Defect","Pericarditis","Myocarditis","Hypertrophic Cardiomyopathy"];
+
+// helper to mount multiselects (simple custom dropdown with checkboxes)
+function createMultiSelect(containerId, options){
+  const container = document.getElementById(containerId);
+  const btn = document.createElement('button');
+  btn.type='button';
+  btn.className='ms-button';
+  btn.textContent='Select...';
+  const panel = document.createElement('div');
+  panel.className='ms-panel';
+  options.forEach(opt => {
+    const row = document.createElement('label');
+    row.className='ms-row';
+    const chk = document.createElement('input');
+    chk.type='checkbox';
+    chk.value = opt;
+    const span = document.createElement('span');
+    span.textContent = opt;
+    row.appendChild(chk);
+    row.appendChild(span);
+    panel.appendChild(row);
+  });
+  container.appendChild(btn);
+  container.appendChild(panel);
+  // toggle
+  btn.addEventListener('click', ()=> panel.classList.toggle('open'));
+  // update button text on change
+  panel.addEventListener('change', ()=>{
+    const checked = Array.from(panel.querySelectorAll('input:checked')).map(i=>i.value);
+    btn.textContent = checked.length ? checked.slice(0,3).join(', ') + (checked.length>3? ' ...':'') : 'Select...';
+  });
+  // close on outside click
+  document.addEventListener('click', (e)=>{ if (!container.contains(e.target)) panel.classList.remove('open'); });
+}
+
+// create
+createMultiSelect('allergies-ms', ALLERGIES);
+createMultiSelect('medications-ms', MEDICATIONS);
+createMultiSelect('conditions-ms', CONDITIONS);
+createMultiSelect('heart-ms', HEART);
+</script>
+</body>
+</html>
